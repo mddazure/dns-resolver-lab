@@ -1,0 +1,81 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_vm1_name": {
+            "value": null
+        },
+        "virtualMachines_vm2_name": {
+            "value": null
+        },
+        "virtualMachines_dnsvm_name": {
+            "value": null
+        },
+        "dnsResolvers_resolver_name": {
+            "value": null
+        },
+        "virtualNetworks_vnet1_name": {
+            "value": null
+        },
+        "virtualNetworks_vnet2_name": {
+            "value": null
+        },
+        "virtualNetworks_dnsvnet_name": {
+            "value": null
+        },
+        "bastionHosts_dns_bastion_name": {
+            "value": null
+        },
+        "networkInterfaces_vm1114_name": {
+            "value": null
+        },
+        "networkInterfaces_vm2726_name": {
+            "value": null
+        },
+        "networkInterfaces_dnsvm66_name": {
+            "value": null
+        },
+        "publicIPAddresses_dnsvm_ip_name": {
+            "value": null
+        },
+        "virtualNetworks_bastionvnet_name": {
+            "value": null
+        },
+        "dnsForwardingRulesets_ruleset1_name": {
+            "value": null
+        },
+        "publicIPAddresses_bastiondns_ip_name": {
+            "value": null
+        },
+        "publicIPAddresses_bastionvnet_ip_name": {
+            "value": null
+        },
+        "networkSecurityGroups_vnet1_subnet1_nsg_uksouth_name": {
+            "value": null
+        },
+        "networkSecurityGroups_vnet2_subnet1_nsg_uksouth_name": {
+            "value": null
+        },
+        "networkSecurityGroups_dnsvnet_vmsubnet_nsg_uksouth_name": {
+            "value": null
+        },
+        "networkSecurityGroups_bastionvnet_default_nsg_uksouth_name": {
+            "value": null
+        },
+        "networkSecurityGroups_dnsvnet_dnsinboundsubnet_nsg_uksouth_name": {
+            "value": null
+        },
+        "networkSecurityGroups_dnsvnet_dsnoutboundsubnet_nsg_uksouth_name": {
+            "value": null
+        },
+        "networkSecurityGroups_dnsvnet_AzureBastionSubnet_nsg_uksouth_name": {
+            "value": null
+        },
+        "networkSecurityGroups_bastionvnet_AzureBastionSubnet_nsg_uksouth_name": {
+            "value": null
+        },
+        "galleries_mddimagegallery_externalid": {
+            "value": null
+        }
+    }
+}
