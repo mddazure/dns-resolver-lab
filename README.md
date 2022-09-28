@@ -72,7 +72,9 @@ Install and run Wireshark https://www.wireshark.org/download.html on `dnsvm`.
 Under Capture -> Options, configure a Capture filter for `port 53`.
 Start capture.
 On `vm1` or `vm2`, issue `nslookup test.fwd.test`.
-In Wiresshark on `dnsvm`, observe DNS requests originating from `outboundsubnet (192.168.0.32/27)`,  to the vm's ip address `192.168.0.132`.
+In Wiresshark on `dnsvm`, observe DNS requests originating from `outboundsubnet (192.168.0.32/27)`,  to the vm's ip address `192.168.0.132`:
+
+![image](images/wireshark.png)
 
 
 
