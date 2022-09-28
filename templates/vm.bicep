@@ -61,19 +61,5 @@ resource vm 'Microsoft.Compute/virtualMachines@2020-12-01' = {
     }
   }
 }
-resource ext 'Microsoft.Compute/virtualMachines/extensions@2020-12-01' = {
-  name: 'ext'
-  parent: vm
-  location: location
-  properties:{
-    publisher: 'Microsoft.Compute'
-    type: 'CustomScriptExtension'
-    typeHandlerVersion: '1.9'
-    autoUpgradeMinorVersion: true
-    protectedSettings:{}
-    settings: {
-        commandToExecute: 'powershell -ExecutionPolicy Unrestricted Add-WindowsFeature Web-Server; powershell -ExecutionPolicy Unrestricted Add-Content -Path "C:\\inetpub\\wwwroot\\Default.htm" -Value $($env:computername)'
-    }
-  }  
-}
+
 

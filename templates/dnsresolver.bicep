@@ -3,6 +3,8 @@ param dnsResolverVnetid string
 param dnsResolverinbsubid string
 param dnsResolveroutbsubid string
 param dnsresolverName string
+param vnet1id string
+param vnet2id string
 var outbepName = '${dnsresolverName}/outbep'
 var inbepName = '${dnsresolverName}/inbep'
 
@@ -73,5 +75,21 @@ resource fwdrule1 'Microsoft.Network/dnsForwardingRulesets/forwardingRules@2022-
       }
     ]
     forwardingRuleState: 'Enabled'
+  }
+}
+resource vnetlink1 'Microsoft.Network/dnsForwardingRulesets/virtualNetworkLinks@2022-07-01' = {
+  name: 'fwdruleset/vnetlink1'
+  properties: {
+    virtualNetwork: {
+      id: vnet1id
+    }
+  }
+}
+resource vnetlink2 'Microsoft.Network/dnsForwardingRulesets/virtualNetworkLinks@2022-07-01' = {
+  name: 'fwdruleset/vnetlink2'
+  properties: {
+    virtualNetwork: {
+      id: vnet2id
+    }
   }
 }

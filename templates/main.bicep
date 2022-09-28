@@ -1,4 +1,4 @@
-param rgName string ='dns-fwding-lab-20220922T155207Z'
+param rgName string ='dns-fwding-lab-20220928T062234Z'
 //param rgName string = 'dns-fwding-lab-${utcNow()}'
 param location string = 'uksouth'
 
@@ -146,6 +146,17 @@ module vm1 'vm.bicep' = {
     subnetId: vnet1Subnet1id
   }
 }
+module iisextvm1 'iisvmext.bicep' = {
+  name: 'iisextvm1'
+  scope: dnsrg
+  dependsOn: [
+    vm1
+  ]
+  params: {
+    vmname: vm1Name
+    location: location
+  }
+}
 module vm2 'vm.bicep' = {
   name: 'vm2'
   scope: dnsrg
@@ -155,6 +166,17 @@ module vm2 'vm.bicep' = {
     adminUser: adminUsername
     adminPw: adminPassword
     subnetId: vnet2Subnet1id
+  }
+}
+module iisextvm2 'iisvmext.bicep' = {
+  name: 'iisextvm2'
+  scope: dnsrg
+  dependsOn: [
+    vm2
+  ]
+  params: {
+    vmname: vm2Name
+    location: location
   }
 }
 module dnsvm 'vm.bicep' = {
@@ -168,9 +190,12 @@ module dnsvm 'vm.bicep' = {
     subnetId: dnsVMSubnetidid
     }
 }
-module dnsext 'vmext.bicep' ={
+module dnsext 'dnsvmext.bicep' ={
   name: 'dnsext'
   scope: dnsrg
+  dependsOn:[
+    dnsvm
+  ]
   params: {
     vmname: dnsName
     location: location
@@ -201,6 +226,8 @@ module dnsresolver 'dnsresolver.bicep' = {
     dnsResolveroutbsubid: dnsoutboundSubnetid
     dnsResolverVnetid: dnsVnetid
     dnsresolverName: dnsresolverName
+    vnet1id: vnet1Id
+    vnet2id: vnet2Id
   }
 }
 
