@@ -55,7 +55,7 @@ Log on to `dnsvm` and open DNS Manager from the Tools menu in Server Manager. No
 
 # Test
 
-## Resolutiom
+## Resolution
 Log on to vm1 or vm2.
 Open a command prompt and enter `nslookup test.fwd.test`.
 Observe output is as follows:
