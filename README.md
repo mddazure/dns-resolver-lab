@@ -49,14 +49,30 @@ password: `Privatedns-2022`
 # Explore
 Locate the DNS Private Resolver named `dnsresolver` and note that this has an outbound endpoint named `outbep` in the VNET `dnsvnet`.
 
-Locate the DNS Forwarding Ruleset named `fwdruleset`. Verify that this is tied to the endpoint `outbep` of Resolver `dnsresolver`, and linked to `vnet1` and `vnet2`. Under Rules, note `rule1` is set to forward requests for Domain `fwd.test.` to address `192.168.0.132:53`. This is the address of VM `dnsvm` in VNET `dnsvnet`.
+Locate the DNS Forwarding Ruleset named `fwdruleset`. Note that this is tied to the endpoint `outbep` of Resolver `dnsresolver`, and linked to `vnet1` and `vnet2`. Under Rules, note `rule1` is set to forward requests for Domain `fwd.test.` to address `192.168.0.132:53`. This is the address of VM `dnsvm` in VNET `dnsvnet`.
 
-Log on to `dnsvm`. Open DNS Manager from the Tools menu in Server Manager.
-
-
+Log on to `dnsvm` and open DNS Manager from the Tools menu in Server Manager. Note the Forward Lookup Zone named `fwd.test`, with an A record `test` pointing to address `10.0.1.1`.
 
 # Test
 
-Log on to vm1 or vm2 through Bastion.
+## Resolutiom
+Log on to vm1 or vm2.
+Open a command prompt and enter `nslookup test.fwd.test`.
+Observe output is as follows:
+```C:\Users\AzureAdmin>nslookup test.fwd.test
+Server:  UnKnown
+Address:  168.63.129.16
 
-Open a command prompt 
+Non-authoritative answer:
+Name:    test.fwd.test
+Address:  10.0.1.1
+```
+## Observe forwarded DNS requests
+Install and run Wireshark https://www.wireshark.org/download.html on `dnsvm`.
+Under Capture -> Options, configure a Capture filter for `port 53`.
+Start capture.
+On `vm1` or `vm2`, issue `nslookup test.fwd.test`.
+In Wiresshark on `dnsvm`, observe DNS requests originating from `outboundsubnet (192.168.0.32/27)`,  to the vm's ip address `192.168.0.132`.
+
+
+
