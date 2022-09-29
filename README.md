@@ -57,7 +57,9 @@ Log on to `dnsvm` and open DNS Manager from the Tools menu in Server Manager. No
 
 ## Resolution
 Log on to vm1 or vm2.
+
 Open a command prompt and enter `nslookup test.fwd.test`.
+
 Observe output is as follows:
 ```C:\Users\AzureAdmin>nslookup test.fwd.test
 Server:  UnKnown
@@ -68,11 +70,15 @@ Name:    test.fwd.test
 Address:  10.0.1.1
 ```
 ## Observe forwarded DNS requests
-Install and run Wireshark https://www.wireshark.org/download.html on `dnsvm`.
+Install and run Wireshark from https://www.wireshark.org/download.html on `dnsvm`.
+
 Under Capture -> Options, configure a Capture filter for `port 53`.
+
 Start capture.
+
 On `vm1` or `vm2`, issue `nslookup test.fwd.test`.
-In Wiresshark on `dnsvm`, observe DNS requests originating from `outboundsubnet (192.168.0.32/27)`,  to the vm's ip address `192.168.0.132`:
+
+In Wiresshark on `dnsvm`, observe DNS requests originating from `outboundsubnet (192.168.0.32/27)`,  to the vm's address `192.168.0.132`:
 
 ![image](images/wireshark.png)
 
