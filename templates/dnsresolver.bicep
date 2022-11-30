@@ -79,6 +79,9 @@ resource fwdrule1 'Microsoft.Network/dnsForwardingRulesets/forwardingRules@2022-
 }
 resource vnetlink1 'Microsoft.Network/dnsForwardingRulesets/virtualNetworkLinks@2022-07-01' = {
   name: 'fwdruleset/vnetlink1'
+  dependsOn:[
+    fwdruleset
+  ]
   properties: {
     virtualNetwork: {
       id: vnet1id
@@ -87,6 +90,9 @@ resource vnetlink1 'Microsoft.Network/dnsForwardingRulesets/virtualNetworkLinks@
 }
 resource vnetlink2 'Microsoft.Network/dnsForwardingRulesets/virtualNetworkLinks@2022-07-01' = {
   name: 'fwdruleset/vnetlink2'
+  dependsOn:[
+    fwdruleset
+  ]
   properties: {
     virtualNetwork: {
       id: vnet2id
