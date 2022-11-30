@@ -1,5 +1,5 @@
-param rgName string ='dns-fwding-lab-20220928T062234Z'
-//param rgName string = 'dns-fwding-lab-${utcNow()}'
+//param rgName string ='dns-fwding-lab-20220928T062234Z'
+param rgName string = 'dns-fwding-lab-${utcNow()}'
 param location string = 'uksouth'
 
 param bastionVnetName string = 'bastionvnet'

@@ -1,0 +1,2023 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.10.61.36676",
+      "templateHash": "16109636730926044267"
+    }
+  },
+  "parameters": {
+    "rgName": {
+      "type": "string",
+      "defaultValue": "dns-fwding-lab-20220928T062234Z"
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "uksouth"
+    },
+    "bastionVnetName": {
+      "type": "string",
+      "defaultValue": "bastionvnet"
+    },
+    "bastionVnetRange": {
+      "type": "string",
+      "defaultValue": "172.16.100.0/24"
+    },
+    "bastionSubnetName": {
+      "type": "string",
+      "defaultValue": "AzureBastionSubnet"
+    },
+    "bastionSubnetRange": {
+      "type": "string",
+      "defaultValue": "172.16.100.0/25"
+    },
+    "bastionSubnet2Name": {
+      "type": "string",
+      "defaultValue": "subnet2"
+    },
+    "bastionSubnet2Range": {
+      "type": "string",
+      "defaultValue": "172.16.100.128/27"
+    },
+    "bastionSubnet3Name": {
+      "type": "string",
+      "defaultValue": "subnet3"
+    },
+    "bastionSubnet3Range": {
+      "type": "string",
+      "defaultValue": "172.16.100.160/27"
+    },
+    "vnet1Name": {
+      "type": "string",
+      "defaultValue": "vnet1"
+    },
+    "vnet1Range": {
+      "type": "string",
+      "defaultValue": "172.16.1.0/24"
+    },
+    "vnet1Subnet1Name": {
+      "type": "string",
+      "defaultValue": "subnet1"
+    },
+    "vnet1Subnet1Range": {
+      "type": "string",
+      "defaultValue": "172.16.1.0/26"
+    },
+    "vnet1Subnet2Name": {
+      "type": "string",
+      "defaultValue": "subnet2"
+    },
+    "vnet1Subnet2Range": {
+      "type": "string",
+      "defaultValue": "172.16.1.64/26"
+    },
+    "vnet1Subnet3Name": {
+      "type": "string",
+      "defaultValue": "subnet3"
+    },
+    "vnet1Subnet3Range": {
+      "type": "string",
+      "defaultValue": "172.16.1.128/26"
+    },
+    "vnet2Name": {
+      "type": "string",
+      "defaultValue": "vnet2"
+    },
+    "vnet2Range": {
+      "type": "string",
+      "defaultValue": "172.16.2.0/24"
+    },
+    "vnet2Subnet1Name": {
+      "type": "string",
+      "defaultValue": "subnet1"
+    },
+    "vnet2Subnet1Range": {
+      "type": "string",
+      "defaultValue": "172.16.2.0/26"
+    },
+    "vnet2Subnet2Name": {
+      "type": "string",
+      "defaultValue": "subnet2"
+    },
+    "vnet2Subnet2Range": {
+      "type": "string",
+      "defaultValue": "172.16.2.64/26"
+    },
+    "vnet2Subnet3Name": {
+      "type": "string",
+      "defaultValue": "subnet3"
+    },
+    "vnet2Subnet3Range": {
+      "type": "string",
+      "defaultValue": "172.16.2.128/26"
+    },
+    "dnsVnetName": {
+      "type": "string",
+      "defaultValue": "dnsvnet"
+    },
+    "dnsVnetRange": {
+      "type": "string",
+      "defaultValue": "192.168.0.0/24"
+    },
+    "dnsinboundSubnetName": {
+      "type": "string",
+      "defaultValue": "inboundsubnet"
+    },
+    "dnsinboundSubnetRange": {
+      "type": "string",
+      "defaultValue": "192.168.0.0/27"
+    },
+    "dnsoutboundSubnetName": {
+      "type": "string",
+      "defaultValue": "outboundsubnet"
+    },
+    "dnsoutboundSubnetRange": {
+      "type": "string",
+      "defaultValue": "192.168.0.32/27"
+    },
+    "dnsVMSubnetName": {
+      "type": "string",
+      "defaultValue": "vmsubnet"
+    },
+    "dnsVMSubnetRange": {
+      "type": "string",
+      "defaultValue": "192.168.0.128/26"
+    },
+    "dnsresolverdelegation": {
+      "type": "string",
+      "defaultValue": "Microsoft.Network/dnsResolvers"
+    },
+    "dnsresolverName": {
+      "type": "string",
+      "defaultValue": "dnsresolver"
+    },
+    "vm1Name": {
+      "type": "string",
+      "defaultValue": "vm1"
+    },
+    "vm2Name": {
+      "type": "string",
+      "defaultValue": "vm2"
+    },
+    "dnsName": {
+      "type": "string",
+      "defaultValue": "dns"
+    },
+    "adminUsername": {
+      "type": "string",
+      "defaultValue": "AzureAdmin"
+    },
+    "adminPassword": {
+      "type": "string",
+      "defaultValue": "Privatedns-2022"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/resourceGroups",
+      "apiVersion": "2021-04-01",
+      "name": "[parameters('rgName')]",
+      "location": "[parameters('location')]"
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "vnet1",
+      "resourceGroup": "[parameters('rgName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "vnetName": {
+            "value": "[parameters('vnet1Name')]"
+          },
+          "vnetaddressrange": {
+            "value": "[parameters('vnet1Range')]"
+          },
+          "subnet1name": {
+            "value": "[parameters('vnet1Subnet1Name')]"
+          },
+          "subnet1range": {
+            "value": "[parameters('vnet1Subnet1Range')]"
+          },
+          "subnet2name": {
+            "value": "[parameters('vnet1Subnet2Name')]"
+          },
+          "subnet2range": {
+            "value": "[parameters('vnet1Subnet2Range')]"
+          },
+          "subnet3name": {
+            "value": "[parameters('vnet1Subnet3Name')]"
+          },
+          "subnet3range": {
+            "value": "[parameters('vnet1Subnet3Range')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.10.61.36676",
+              "templateHash": "6221221851804381857"
+            }
+          },
+          "parameters": {
+            "vnetName": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            },
+            "vnetaddressrange": {
+              "type": "string"
+            },
+            "subnet1name": {
+              "type": "string"
+            },
+            "subnet1range": {
+              "type": "string"
+            },
+            "subnet2name": {
+              "type": "string"
+            },
+            "subnet2range": {
+              "type": "string"
+            },
+            "subnet3name": {
+              "type": "string"
+            },
+            "subnet3range": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/virtualNetworks",
+              "apiVersion": "2022-01-01",
+              "name": "[parameters('vnetName')]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "addressSpace": {
+                  "addressPrefixes": [
+                    "[parameters('vnetaddressrange')]"
+                  ]
+                },
+                "subnets": [
+                  {
+                    "name": "[parameters('subnet1name')]",
+                    "properties": {
+                      "addressPrefix": "[parameters('subnet1range')]"
+                    }
+                  },
+                  {
+                    "name": "[parameters('subnet2name')]",
+                    "properties": {
+                      "addressPrefix": "[parameters('subnet2range')]"
+                    }
+                  },
+                  {
+                    "name": "[parameters('subnet3name')]",
+                    "properties": {
+                      "addressPrefix": "[parameters('subnet3range')]"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "outputs": {
+            "vnetid": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
+            },
+            "subnet1id": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))).subnets[0].id]"
+            },
+            "subnet2id": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))).subnets[1].id]"
+            },
+            "subnet3id": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))).subnets[2].id]"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "vnet2",
+      "resourceGroup": "[parameters('rgName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "vnetName": {
+            "value": "[parameters('vnet2Name')]"
+          },
+          "vnetaddressrange": {
+            "value": "[parameters('vnet2Range')]"
+          },
+          "subnet1name": {
+            "value": "[parameters('vnet2Subnet1Name')]"
+          },
+          "subnet1range": {
+            "value": "[parameters('vnet2Subnet1Range')]"
+          },
+          "subnet2name": {
+            "value": "[parameters('vnet2Subnet2Name')]"
+          },
+          "subnet2range": {
+            "value": "[parameters('vnet2Subnet2Range')]"
+          },
+          "subnet3name": {
+            "value": "[parameters('vnet2Subnet3Name')]"
+          },
+          "subnet3range": {
+            "value": "[parameters('vnet2Subnet3Range')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.10.61.36676",
+              "templateHash": "6221221851804381857"
+            }
+          },
+          "parameters": {
+            "vnetName": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            },
+            "vnetaddressrange": {
+              "type": "string"
+            },
+            "subnet1name": {
+              "type": "string"
+            },
+            "subnet1range": {
+              "type": "string"
+            },
+            "subnet2name": {
+              "type": "string"
+            },
+            "subnet2range": {
+              "type": "string"
+            },
+            "subnet3name": {
+              "type": "string"
+            },
+            "subnet3range": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/virtualNetworks",
+              "apiVersion": "2022-01-01",
+              "name": "[parameters('vnetName')]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "addressSpace": {
+                  "addressPrefixes": [
+                    "[parameters('vnetaddressrange')]"
+                  ]
+                },
+                "subnets": [
+                  {
+                    "name": "[parameters('subnet1name')]",
+                    "properties": {
+                      "addressPrefix": "[parameters('subnet1range')]"
+                    }
+                  },
+                  {
+                    "name": "[parameters('subnet2name')]",
+                    "properties": {
+                      "addressPrefix": "[parameters('subnet2range')]"
+                    }
+                  },
+                  {
+                    "name": "[parameters('subnet3name')]",
+                    "properties": {
+                      "addressPrefix": "[parameters('subnet3range')]"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "outputs": {
+            "vnetid": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
+            },
+            "subnet1id": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))).subnets[0].id]"
+            },
+            "subnet2id": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))).subnets[1].id]"
+            },
+            "subnet3id": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))).subnets[2].id]"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "bastionvnet",
+      "resourceGroup": "[parameters('rgName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "vnetName": {
+            "value": "[parameters('bastionVnetName')]"
+          },
+          "vnetaddressrange": {
+            "value": "[parameters('bastionVnetRange')]"
+          },
+          "subnet1name": {
+            "value": "[parameters('bastionSubnetName')]"
+          },
+          "subnet1range": {
+            "value": "[parameters('bastionSubnetRange')]"
+          },
+          "subnet2name": {
+            "value": "[parameters('bastionSubnet2Name')]"
+          },
+          "subnet2range": {
+            "value": "[parameters('bastionSubnet2Range')]"
+          },
+          "subnet3name": {
+            "value": "[parameters('bastionSubnet3Name')]"
+          },
+          "subnet3range": {
+            "value": "[parameters('bastionSubnet3Range')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.10.61.36676",
+              "templateHash": "6221221851804381857"
+            }
+          },
+          "parameters": {
+            "vnetName": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            },
+            "vnetaddressrange": {
+              "type": "string"
+            },
+            "subnet1name": {
+              "type": "string"
+            },
+            "subnet1range": {
+              "type": "string"
+            },
+            "subnet2name": {
+              "type": "string"
+            },
+            "subnet2range": {
+              "type": "string"
+            },
+            "subnet3name": {
+              "type": "string"
+            },
+            "subnet3range": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/virtualNetworks",
+              "apiVersion": "2022-01-01",
+              "name": "[parameters('vnetName')]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "addressSpace": {
+                  "addressPrefixes": [
+                    "[parameters('vnetaddressrange')]"
+                  ]
+                },
+                "subnets": [
+                  {
+                    "name": "[parameters('subnet1name')]",
+                    "properties": {
+                      "addressPrefix": "[parameters('subnet1range')]"
+                    }
+                  },
+                  {
+                    "name": "[parameters('subnet2name')]",
+                    "properties": {
+                      "addressPrefix": "[parameters('subnet2range')]"
+                    }
+                  },
+                  {
+                    "name": "[parameters('subnet3name')]",
+                    "properties": {
+                      "addressPrefix": "[parameters('subnet3range')]"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "outputs": {
+            "vnetid": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
+            },
+            "subnet1id": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))).subnets[0].id]"
+            },
+            "subnet2id": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))).subnets[1].id]"
+            },
+            "subnet3id": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))).subnets[2].id]"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "dnsvnet",
+      "resourceGroup": "[parameters('rgName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "vnetName": {
+            "value": "[parameters('dnsVnetName')]"
+          },
+          "vnetaddressrange": {
+            "value": "[parameters('dnsVnetRange')]"
+          },
+          "subnet1name": {
+            "value": "[parameters('dnsinboundSubnetName')]"
+          },
+          "subnet1range": {
+            "value": "[parameters('dnsinboundSubnetRange')]"
+          },
+          "subnet2name": {
+            "value": "[parameters('dnsoutboundSubnetName')]"
+          },
+          "subnet2range": {
+            "value": "[parameters('dnsoutboundSubnetRange')]"
+          },
+          "subnet3name": {
+            "value": "[parameters('dnsVMSubnetName')]"
+          },
+          "subnet3range": {
+            "value": "[parameters('dnsVMSubnetRange')]"
+          },
+          "delegation": {
+            "value": "[parameters('dnsresolverdelegation')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.10.61.36676",
+              "templateHash": "13986738914909165561"
+            }
+          },
+          "parameters": {
+            "vnetName": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            },
+            "vnetaddressrange": {
+              "type": "string"
+            },
+            "subnet1name": {
+              "type": "string"
+            },
+            "subnet1range": {
+              "type": "string"
+            },
+            "subnet2name": {
+              "type": "string"
+            },
+            "subnet2range": {
+              "type": "string"
+            },
+            "subnet3name": {
+              "type": "string"
+            },
+            "subnet3range": {
+              "type": "string"
+            },
+            "delegation": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "condition": "[not(empty(parameters('delegation')))]",
+              "type": "Microsoft.Network/virtualNetworks",
+              "apiVersion": "2022-01-01",
+              "name": "[parameters('vnetName')]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "addressSpace": {
+                  "addressPrefixes": [
+                    "[parameters('vnetaddressrange')]"
+                  ]
+                },
+                "subnets": [
+                  {
+                    "name": "[parameters('subnet1name')]",
+                    "properties": {
+                      "addressPrefix": "[parameters('subnet1range')]",
+                      "delegations": [
+                        {
+                          "name": "delegation",
+                          "properties": {
+                            "serviceName": "[parameters('delegation')]"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "[parameters('subnet2name')]",
+                    "properties": {
+                      "addressPrefix": "[parameters('subnet2range')]",
+                      "delegations": [
+                        {
+                          "name": "delegation",
+                          "properties": {
+                            "serviceName": "[parameters('delegation')]"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "[parameters('subnet3name')]",
+                    "properties": {
+                      "addressPrefix": "[parameters('subnet3range')]"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "outputs": {
+            "vnetid": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
+            },
+            "subnet1id": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName')), '2022-01-01').subnets[0].id]"
+            },
+            "subnet2id": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName')), '2022-01-01').subnets[1].id]"
+            },
+            "subnet3id": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName')), '2022-01-01').subnets[2].id]"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "vm1",
+      "resourceGroup": "[parameters('rgName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "vmName": {
+            "value": "[parameters('vm1Name')]"
+          },
+          "adminUser": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "adminPw": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "subnetId": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'vnet1')).outputs.subnet1id.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.10.61.36676",
+              "templateHash": "16288037486377966600"
+            }
+          },
+          "parameters": {
+            "vmName": {
+              "type": "string"
+            },
+            "adminUser": {
+              "type": "string"
+            },
+            "adminPw": {
+              "type": "secureString"
+            },
+            "location": {
+              "type": "string"
+            },
+            "subnetId": {
+              "type": "string"
+            }
+          },
+          "variables": {
+            "imagePublisher": "MicrosoftWindowsServer",
+            "imageOffer": "WindowsServer",
+            "imageSku": "2022-Datacenter"
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/networkInterfaces",
+              "apiVersion": "2020-08-01",
+              "name": "[format('{0}-nic', parameters('vmName'))]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "ipConfigurations": [
+                  {
+                    "name": "ipv4config0",
+                    "properties": {
+                      "primary": true,
+                      "privateIPAllocationMethod": "Dynamic",
+                      "privateIPAddressVersion": "IPv4",
+                      "subnet": {
+                        "id": "[parameters('subnetId')]"
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "Microsoft.Compute/virtualMachines",
+              "apiVersion": "2020-12-01",
+              "name": "[parameters('vmName')]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "hardwareProfile": {
+                  "vmSize": "Standard_DS2_v2"
+                },
+                "storageProfile": {
+                  "imageReference": {
+                    "publisher": "[variables('imagePublisher')]",
+                    "offer": "[variables('imageOffer')]",
+                    "sku": "[variables('imageSku')]",
+                    "version": "latest"
+                  },
+                  "osDisk": {
+                    "createOption": "FromImage"
+                  }
+                },
+                "osProfile": {
+                  "computerName": "[parameters('vmName')]",
+                  "adminUsername": "[parameters('adminUser')]",
+                  "adminPassword": "[parameters('adminPw')]"
+                },
+                "networkProfile": {
+                  "networkInterfaces": [
+                    {
+                      "id": "[resourceId('Microsoft.Network/networkInterfaces', format('{0}-nic', parameters('vmName')))]"
+                    }
+                  ]
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces', format('{0}-nic', parameters('vmName')))]"
+              ]
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'vnet1')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "iisextvm1",
+      "resourceGroup": "[parameters('rgName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "vmname": {
+            "value": "[parameters('vm1Name')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.10.61.36676",
+              "templateHash": "9544202885961727127"
+            }
+          },
+          "parameters": {
+            "vmname": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Compute/virtualMachines/extensions",
+              "apiVersion": "2020-12-01",
+              "name": "[format('{0}/iisext', parameters('vmname'))]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.10",
+                "autoUpgradeMinorVersion": false,
+                "protectedSettings": {},
+                "settings": {
+                  "commandToExecute": "powershell -ExecutionPolicy Unrestricted Add-WindowsFeature Web-Server; powershell -ExecutionPolicy Unrestricted Add-Content -Path \"C:\\inetpub\\wwwroot\\Default.htm\" -Value $($env:computername)"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'vm1')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "vm2",
+      "resourceGroup": "[parameters('rgName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "vmName": {
+            "value": "[parameters('vm2Name')]"
+          },
+          "adminUser": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "adminPw": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "subnetId": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'vnet2')).outputs.subnet1id.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.10.61.36676",
+              "templateHash": "16288037486377966600"
+            }
+          },
+          "parameters": {
+            "vmName": {
+              "type": "string"
+            },
+            "adminUser": {
+              "type": "string"
+            },
+            "adminPw": {
+              "type": "secureString"
+            },
+            "location": {
+              "type": "string"
+            },
+            "subnetId": {
+              "type": "string"
+            }
+          },
+          "variables": {
+            "imagePublisher": "MicrosoftWindowsServer",
+            "imageOffer": "WindowsServer",
+            "imageSku": "2022-Datacenter"
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/networkInterfaces",
+              "apiVersion": "2020-08-01",
+              "name": "[format('{0}-nic', parameters('vmName'))]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "ipConfigurations": [
+                  {
+                    "name": "ipv4config0",
+                    "properties": {
+                      "primary": true,
+                      "privateIPAllocationMethod": "Dynamic",
+                      "privateIPAddressVersion": "IPv4",
+                      "subnet": {
+                        "id": "[parameters('subnetId')]"
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "Microsoft.Compute/virtualMachines",
+              "apiVersion": "2020-12-01",
+              "name": "[parameters('vmName')]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "hardwareProfile": {
+                  "vmSize": "Standard_DS2_v2"
+                },
+                "storageProfile": {
+                  "imageReference": {
+                    "publisher": "[variables('imagePublisher')]",
+                    "offer": "[variables('imageOffer')]",
+                    "sku": "[variables('imageSku')]",
+                    "version": "latest"
+                  },
+                  "osDisk": {
+                    "createOption": "FromImage"
+                  }
+                },
+                "osProfile": {
+                  "computerName": "[parameters('vmName')]",
+                  "adminUsername": "[parameters('adminUser')]",
+                  "adminPassword": "[parameters('adminPw')]"
+                },
+                "networkProfile": {
+                  "networkInterfaces": [
+                    {
+                      "id": "[resourceId('Microsoft.Network/networkInterfaces', format('{0}-nic', parameters('vmName')))]"
+                    }
+                  ]
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces', format('{0}-nic', parameters('vmName')))]"
+              ]
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'vnet2')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "iisextvm2",
+      "resourceGroup": "[parameters('rgName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "vmname": {
+            "value": "[parameters('vm2Name')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.10.61.36676",
+              "templateHash": "9544202885961727127"
+            }
+          },
+          "parameters": {
+            "vmname": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Compute/virtualMachines/extensions",
+              "apiVersion": "2020-12-01",
+              "name": "[format('{0}/iisext', parameters('vmname'))]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.10",
+                "autoUpgradeMinorVersion": false,
+                "protectedSettings": {},
+                "settings": {
+                  "commandToExecute": "powershell -ExecutionPolicy Unrestricted Add-WindowsFeature Web-Server; powershell -ExecutionPolicy Unrestricted Add-Content -Path \"C:\\inetpub\\wwwroot\\Default.htm\" -Value $($env:computername)"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'vm2')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "dnsvm2",
+      "resourceGroup": "[parameters('rgName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "vmName": {
+            "value": "[parameters('dnsName')]"
+          },
+          "adminUser": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "adminPw": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "subnetId": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'dnsvnet')).outputs.subnet3id.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.10.61.36676",
+              "templateHash": "16288037486377966600"
+            }
+          },
+          "parameters": {
+            "vmName": {
+              "type": "string"
+            },
+            "adminUser": {
+              "type": "string"
+            },
+            "adminPw": {
+              "type": "secureString"
+            },
+            "location": {
+              "type": "string"
+            },
+            "subnetId": {
+              "type": "string"
+            }
+          },
+          "variables": {
+            "imagePublisher": "MicrosoftWindowsServer",
+            "imageOffer": "WindowsServer",
+            "imageSku": "2022-Datacenter"
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/networkInterfaces",
+              "apiVersion": "2020-08-01",
+              "name": "[format('{0}-nic', parameters('vmName'))]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "ipConfigurations": [
+                  {
+                    "name": "ipv4config0",
+                    "properties": {
+                      "primary": true,
+                      "privateIPAllocationMethod": "Dynamic",
+                      "privateIPAddressVersion": "IPv4",
+                      "subnet": {
+                        "id": "[parameters('subnetId')]"
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "Microsoft.Compute/virtualMachines",
+              "apiVersion": "2020-12-01",
+              "name": "[parameters('vmName')]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "hardwareProfile": {
+                  "vmSize": "Standard_DS2_v2"
+                },
+                "storageProfile": {
+                  "imageReference": {
+                    "publisher": "[variables('imagePublisher')]",
+                    "offer": "[variables('imageOffer')]",
+                    "sku": "[variables('imageSku')]",
+                    "version": "latest"
+                  },
+                  "osDisk": {
+                    "createOption": "FromImage"
+                  }
+                },
+                "osProfile": {
+                  "computerName": "[parameters('vmName')]",
+                  "adminUsername": "[parameters('adminUser')]",
+                  "adminPassword": "[parameters('adminPw')]"
+                },
+                "networkProfile": {
+                  "networkInterfaces": [
+                    {
+                      "id": "[resourceId('Microsoft.Network/networkInterfaces', format('{0}-nic', parameters('vmName')))]"
+                    }
+                  ]
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces', format('{0}-nic', parameters('vmName')))]"
+              ]
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'dnsvnet')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "dnsext",
+      "resourceGroup": "[parameters('rgName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "vmname": {
+            "value": "[parameters('dnsName')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.10.61.36676",
+              "templateHash": "14397384951024329322"
+            }
+          },
+          "parameters": {
+            "vmname": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Compute/virtualMachines/extensions",
+              "apiVersion": "2022-03-01",
+              "name": "[format('{0}/dnsext', parameters('vmname'))]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.10",
+                "autoUpgradeMinorVersion": false,
+                "settings": {
+                  "commandToExecute": "powershell -ExecutionPolicy Unrestricted Install-WindowsFeature -Name DNS -IncludeManagementTools; powershell -ExecutionPolicy Unrestricted Add-DnsServerPrimaryZone -Name fwd.test -ZoneFile fwdtest.dns; powershell -ExecutionPolicy Unrestricted Add-DnsServerResourceRecordA -Name test -IPv4Address 10.0.1.1 -ZoneName fwd.test -TimeToLive 01:00:00"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'dnsvm2')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "bastion",
+      "resourceGroup": "[parameters('rgName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "bastionSubnetid": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'bastionvnet')).outputs.subnet1id.value]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.10.61.36676",
+              "templateHash": "8104460569433512918"
+            }
+          },
+          "parameters": {
+            "bastionSubnetid": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/publicIPAddresses",
+              "apiVersion": "2022-01-01",
+              "name": "bastionpip",
+              "location": "[parameters('location')]",
+              "sku": {
+                "name": "Standard"
+              },
+              "zones": [
+                "1",
+                "2",
+                "3"
+              ],
+              "properties": {
+                "publicIPAllocationMethod": "Static",
+                "publicIPAddressVersion": "IPv4"
+              }
+            },
+            {
+              "type": "Microsoft.Network/bastionHosts",
+              "apiVersion": "2022-01-01",
+              "name": "bastion",
+              "location": "[parameters('location')]",
+              "sku": {
+                "name": "Standard"
+              },
+              "properties": {
+                "ipConfigurations": [
+                  {
+                    "name": "ipConf",
+                    "properties": {
+                      "subnet": {
+                        "id": "[parameters('bastionSubnetid')]"
+                      },
+                      "publicIPAddress": {
+                        "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'bastionpip')]"
+                      }
+                    }
+                  }
+                ],
+                "enableIpConnect": true
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', 'bastionpip')]"
+              ]
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'bastionvnet')]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "dnsresolver",
+      "resourceGroup": "[parameters('rgName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "dnsResolverinbsubid": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'dnsvnet')).outputs.subnet1id.value]"
+          },
+          "dnsResolveroutbsubid": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'dnsvnet')).outputs.subnet2id.value]"
+          },
+          "dnsResolverVnetid": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'dnsvnet')).outputs.vnetid.value]"
+          },
+          "dnsresolverName": {
+            "value": "[parameters('dnsresolverName')]"
+          },
+          "vnet1id": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'vnet1')).outputs.vnetid.value]"
+          },
+          "vnet2id": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'vnet2')).outputs.vnetid.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.10.61.36676",
+              "templateHash": "12636778844410188241"
+            }
+          },
+          "parameters": {
+            "location": {
+              "type": "string"
+            },
+            "dnsResolverVnetid": {
+              "type": "string"
+            },
+            "dnsResolverinbsubid": {
+              "type": "string"
+            },
+            "dnsResolveroutbsubid": {
+              "type": "string"
+            },
+            "dnsresolverName": {
+              "type": "string"
+            },
+            "vnet1id": {
+              "type": "string"
+            },
+            "vnet2id": {
+              "type": "string"
+            }
+          },
+          "variables": {
+            "outbepName": "[format('{0}/outbep', parameters('dnsresolverName'))]",
+            "inbepName": "[format('{0}/inbep', parameters('dnsresolverName'))]"
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/dnsResolvers",
+              "apiVersion": "2022-07-01",
+              "name": "[parameters('dnsresolverName')]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "virtualNetwork": {
+                  "id": "[parameters('dnsResolverVnetid')]"
+                }
+              }
+            },
+            {
+              "type": "Microsoft.Network/dnsResolvers/outboundEndpoints",
+              "apiVersion": "2022-07-01",
+              "name": "[variables('outbepName')]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "subnet": {
+                  "id": "[parameters('dnsResolveroutbsubid')]"
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Network/dnsResolvers', parameters('dnsresolverName'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Network/dnsResolvers/inboundEndpoints",
+              "apiVersion": "2022-07-01",
+              "name": "[variables('inbepName')]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "ipConfigurations": [
+                  {
+                    "subnet": {
+                      "id": "[parameters('dnsResolverinbsubid')]"
+                    }
+                  }
+                ]
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Network/dnsResolvers', parameters('dnsresolverName'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Network/dnsForwardingRulesets",
+              "apiVersion": "2022-07-01",
+              "name": "fwdruleset",
+              "location": "[parameters('location')]",
+              "properties": {
+                "dnsResolverOutboundEndpoints": [
+                  {
+                    "id": "[resourceId('Microsoft.Network/dnsResolvers/outboundEndpoints', split(variables('outbepName'), '/')[0], split(variables('outbepName'), '/')[1])]"
+                  }
+                ]
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Network/dnsResolvers/outboundEndpoints', split(variables('outbepName'), '/')[0], split(variables('outbepName'), '/')[1])]"
+              ]
+            },
+            {
+              "type": "Microsoft.Network/dnsForwardingRulesets/forwardingRules",
+              "apiVersion": "2022-07-01",
+              "name": "[format('{0}/rule1', 'fwdruleset')]",
+              "properties": {
+                "domainName": "fwd.test.",
+                "targetDnsServers": [
+                  {
+                    "ipAddress": "192.168.0.132",
+                    "port": 53
+                  }
+                ],
+                "forwardingRuleState": "Enabled"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Network/dnsForwardingRulesets', 'fwdruleset')]"
+              ]
+            },
+            {
+              "type": "Microsoft.Network/dnsForwardingRulesets/virtualNetworkLinks",
+              "apiVersion": "2022-07-01",
+              "name": "fwdruleset/vnetlink1",
+              "properties": {
+                "virtualNetwork": {
+                  "id": "[parameters('vnet1id')]"
+                }
+              }
+            },
+            {
+              "type": "Microsoft.Network/dnsForwardingRulesets/virtualNetworkLinks",
+              "apiVersion": "2022-07-01",
+              "name": "fwdruleset/vnetlink2",
+              "properties": {
+                "virtualNetwork": {
+                  "id": "[parameters('vnet2id')]"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'dnsvnet')]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'vnet1')]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'vnet2')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "peerb1",
+      "resourceGroup": "[parameters('rgName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "vnet1Name": {
+            "value": "[parameters('vnet1Name')]"
+          },
+          "vnet2Name": {
+            "value": "[parameters('bastionVnetName')]"
+          },
+          "vnet1id": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'vnet1')).outputs.vnetid.value]"
+          },
+          "vnet2id": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'bastionvnet')).outputs.vnetid.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.10.61.36676",
+              "templateHash": "900484654932528343"
+            }
+          },
+          "parameters": {
+            "vnet1Name": {
+              "type": "string"
+            },
+            "vnet2Name": {
+              "type": "string"
+            },
+            "vnet1id": {
+              "type": "string"
+            },
+            "vnet2id": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+              "apiVersion": "2022-01-01",
+              "name": "[format('{0}/{1}-{2}', parameters('vnet1Name'), parameters('vnet1Name'), parameters('vnet2Name'))]",
+              "properties": {
+                "allowForwardedTraffic": true,
+                "allowGatewayTransit": false,
+                "allowVirtualNetworkAccess": true,
+                "doNotVerifyRemoteGateways": true,
+                "remoteVirtualNetwork": {
+                  "id": "[parameters('vnet2id')]"
+                },
+                "useRemoteGateways": false
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'bastionvnet')]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'vnet1')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "peer1b",
+      "resourceGroup": "[parameters('rgName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "vnet2Name": {
+            "value": "[parameters('vnet1Name')]"
+          },
+          "vnet1Name": {
+            "value": "[parameters('bastionVnetName')]"
+          },
+          "vnet2id": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'vnet1')).outputs.vnetid.value]"
+          },
+          "vnet1id": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'bastionvnet')).outputs.vnetid.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.10.61.36676",
+              "templateHash": "900484654932528343"
+            }
+          },
+          "parameters": {
+            "vnet1Name": {
+              "type": "string"
+            },
+            "vnet2Name": {
+              "type": "string"
+            },
+            "vnet1id": {
+              "type": "string"
+            },
+            "vnet2id": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+              "apiVersion": "2022-01-01",
+              "name": "[format('{0}/{1}-{2}', parameters('vnet1Name'), parameters('vnet1Name'), parameters('vnet2Name'))]",
+              "properties": {
+                "allowForwardedTraffic": true,
+                "allowGatewayTransit": false,
+                "allowVirtualNetworkAccess": true,
+                "doNotVerifyRemoteGateways": true,
+                "remoteVirtualNetwork": {
+                  "id": "[parameters('vnet2id')]"
+                },
+                "useRemoteGateways": false
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'bastionvnet')]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'vnet1')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "peerb2",
+      "resourceGroup": "[parameters('rgName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "vnet1Name": {
+            "value": "[parameters('vnet2Name')]"
+          },
+          "vnet2Name": {
+            "value": "[parameters('bastionVnetName')]"
+          },
+          "vnet1id": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'vnet2')).outputs.vnetid.value]"
+          },
+          "vnet2id": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'bastionvnet')).outputs.vnetid.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.10.61.36676",
+              "templateHash": "900484654932528343"
+            }
+          },
+          "parameters": {
+            "vnet1Name": {
+              "type": "string"
+            },
+            "vnet2Name": {
+              "type": "string"
+            },
+            "vnet1id": {
+              "type": "string"
+            },
+            "vnet2id": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+              "apiVersion": "2022-01-01",
+              "name": "[format('{0}/{1}-{2}', parameters('vnet1Name'), parameters('vnet1Name'), parameters('vnet2Name'))]",
+              "properties": {
+                "allowForwardedTraffic": true,
+                "allowGatewayTransit": false,
+                "allowVirtualNetworkAccess": true,
+                "doNotVerifyRemoteGateways": true,
+                "remoteVirtualNetwork": {
+                  "id": "[parameters('vnet2id')]"
+                },
+                "useRemoteGateways": false
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'bastionvnet')]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'vnet2')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "peer2b",
+      "resourceGroup": "[parameters('rgName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "vnet2Name": {
+            "value": "[parameters('vnet2Name')]"
+          },
+          "vnet1Name": {
+            "value": "[parameters('bastionVnetName')]"
+          },
+          "vnet2id": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'vnet2')).outputs.vnetid.value]"
+          },
+          "vnet1id": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'bastionvnet')).outputs.vnetid.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.10.61.36676",
+              "templateHash": "900484654932528343"
+            }
+          },
+          "parameters": {
+            "vnet1Name": {
+              "type": "string"
+            },
+            "vnet2Name": {
+              "type": "string"
+            },
+            "vnet1id": {
+              "type": "string"
+            },
+            "vnet2id": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+              "apiVersion": "2022-01-01",
+              "name": "[format('{0}/{1}-{2}', parameters('vnet1Name'), parameters('vnet1Name'), parameters('vnet2Name'))]",
+              "properties": {
+                "allowForwardedTraffic": true,
+                "allowGatewayTransit": false,
+                "allowVirtualNetworkAccess": true,
+                "doNotVerifyRemoteGateways": true,
+                "remoteVirtualNetwork": {
+                  "id": "[parameters('vnet2id')]"
+                },
+                "useRemoteGateways": false
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'bastionvnet')]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'vnet2')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "peerbdns",
+      "resourceGroup": "[parameters('rgName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "vnet1Name": {
+            "value": "[parameters('dnsVnetName')]"
+          },
+          "vnet2Name": {
+            "value": "[parameters('bastionVnetName')]"
+          },
+          "vnet1id": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'dnsvnet')).outputs.vnetid.value]"
+          },
+          "vnet2id": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'bastionvnet')).outputs.vnetid.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.10.61.36676",
+              "templateHash": "900484654932528343"
+            }
+          },
+          "parameters": {
+            "vnet1Name": {
+              "type": "string"
+            },
+            "vnet2Name": {
+              "type": "string"
+            },
+            "vnet1id": {
+              "type": "string"
+            },
+            "vnet2id": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+              "apiVersion": "2022-01-01",
+              "name": "[format('{0}/{1}-{2}', parameters('vnet1Name'), parameters('vnet1Name'), parameters('vnet2Name'))]",
+              "properties": {
+                "allowForwardedTraffic": true,
+                "allowGatewayTransit": false,
+                "allowVirtualNetworkAccess": true,
+                "doNotVerifyRemoteGateways": true,
+                "remoteVirtualNetwork": {
+                  "id": "[parameters('vnet2id')]"
+                },
+                "useRemoteGateways": false
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'bastionvnet')]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'dnsvnet')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "peerdnsb",
+      "resourceGroup": "[parameters('rgName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "vnet2Name": {
+            "value": "[parameters('dnsVnetName')]"
+          },
+          "vnet1Name": {
+            "value": "[parameters('bastionVnetName')]"
+          },
+          "vnet2id": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'dnsvnet')).outputs.vnetid.value]"
+          },
+          "vnet1id": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'bastionvnet')).outputs.vnetid.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.10.61.36676",
+              "templateHash": "900484654932528343"
+            }
+          },
+          "parameters": {
+            "vnet1Name": {
+              "type": "string"
+            },
+            "vnet2Name": {
+              "type": "string"
+            },
+            "vnet1id": {
+              "type": "string"
+            },
+            "vnet2id": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+              "apiVersion": "2022-01-01",
+              "name": "[format('{0}/{1}-{2}', parameters('vnet1Name'), parameters('vnet1Name'), parameters('vnet2Name'))]",
+              "properties": {
+                "allowForwardedTraffic": true,
+                "allowGatewayTransit": false,
+                "allowVirtualNetworkAccess": true,
+                "doNotVerifyRemoteGateways": true,
+                "remoteVirtualNetwork": {
+                  "id": "[parameters('vnet2id')]"
+                },
+                "useRemoteGateways": false
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'bastionvnet')]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'dnsvnet')]"
+      ]
+    }
+  ]
+}
